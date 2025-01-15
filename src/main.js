@@ -23,14 +23,21 @@ bot.command("hi", (ctx) => {
 
 bot.command("exch", async (ctx) =>{
     const [_, sum, from, to] = ctx.message.text.split(" ")
-    
-    const respons = await fetch(`${basUrl}${process.env.secretkey}/latest/${from}`)
-    const curs = await respons.json()
-    console.log(curs.conversion_rates)
+    if (!sum || !from || !to){
+        ctx.reply("введіть правельне повідомлення у форматі:")
+        ctx.reply("/exch 100 USD UAH")
+    }
+    else {
+        const respons = await fetch(`${basUrl}${process.env.secretkey}/latest/${from}`)
+        const curs = await respons.json()
+        console.log(curs.conversion_rates)
 
     
 
-    ctx.reply(sum * curs.conversion_rates[to])
+        ctx.reply(sum * curs.conversion_rates[to])
+    }
+    
+    
 })
 
 
